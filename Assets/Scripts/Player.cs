@@ -21,11 +21,9 @@ public class Player : MonoBehaviour
 
 
     public void OnDeath()
-    {
-        Debug.Log(" Player has died");
+    {      
         SoundManager.Instance.Play(SoundList.PlayerDeath); 
-        gameOverController.OnGameOver();
-       
+        gameOverController.OnGameOver();       
     }
 
     public void UpdateLives()
@@ -34,7 +32,12 @@ public class Player : MonoBehaviour
         healthUIController.LivesDisplayUpdate(lives); 
         if (lives == 0)
         {
-            OnDeath(); 
+
+            Animator anim = GetComponent<Animator>();
+            if (anim != null)
+            {           
+               anim.SetTrigger("OnDeath");
+            }              
         }
     }
 

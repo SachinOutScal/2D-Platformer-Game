@@ -34,14 +34,12 @@ public class LevelManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
+      //  UnlockReset();
+
         if (GetLevelStatus(Level1) == LevelStatus.Locked)
         {
             SetLevelStatus(Level1, LevelStatus.UnLocked); 
-        }    
-  
-
-        Debug.Log("level stats "+ GetLevelStatus("Level3")); 
+        }
     }
 
 
@@ -51,7 +49,7 @@ public class LevelManager : MonoBehaviour
         {
             SetLevelStatus(Levels[i], LevelStatus.Locked);
         }
-        Debug.Log("Levels reset to locked");
+       
 
     }
     public void MarkCurrentLevelComplete()
@@ -62,8 +60,7 @@ public class LevelManager : MonoBehaviour
         int nextSceneIndex = currentScene.buildIndex + 1;
 
         if (nextSceneIndex < Levels.Length)
-        SetLevelStatus(Levels[nextSceneIndex], LevelStatus.UnLocked);
-        Debug.Log("level complete"); 
+        SetLevelStatus(Levels[nextSceneIndex], LevelStatus.UnLocked);       
         SceneManager.LoadScene(0); 
     }
 
@@ -76,9 +73,7 @@ public class LevelManager : MonoBehaviour
 
     public void SetLevelStatus(string level, LevelStatus levelStatus)
     {
-        PlayerPrefs.SetInt(level, (int)levelStatus);
-        Debug.Log("Level Status :" + level); 
-
+        PlayerPrefs.SetInt(level, (int)levelStatus);  
     }
 
 
