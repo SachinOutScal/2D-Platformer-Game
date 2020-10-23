@@ -19,19 +19,16 @@ public class LobbyController : MonoBehaviour
     private void LevelSelection()
     {
         
-        SoundManager.Instance.Play(SoundList.ButtonClickPlay); 
-        
+        SoundManager.Instance.Play(SoundList.ButtonClickPlay);
+        LevelManager.Instance.StartCoroutine("UpdateLevelLockUI");
         newGameButton.transform.parent.gameObject.SetActive(false);
         LevelSelectionParent.SetActive(true);
-
-
-
     }
 
     private void LoadNewGame()
     {
         SoundManager.Instance.Play(SoundList.ButtonClickPlay);
-
+        LevelManager.Instance.UnlockReset(); 
         SceneManager.LoadScene(1); 
     }
 

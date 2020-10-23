@@ -11,13 +11,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField]  private float _speed =5.0f;
     [SerializeField] private float _jump = 10.0f;  // jump force added
     private Rigidbody2D rb2D;
-  
+   
+    public float lastTimePlayed; 
     bool isCrouch;
-    bool isGrounded; 
+    bool isGrounded;
+    public bool readyToJump;
     // Start is called before the first frame update
     void Start()
     {
-       
+        lastTimePlayed = Time.time;
+        readyToJump = true; 
         isCrouch = false;
         isGrounded = true;
         rb2D = GetComponent<Rigidbody2D>();
@@ -25,7 +28,8 @@ public class PlayerController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()    {
+    void Update()    
+    {
 
 
         float _speedInput = Input.GetAxisRaw("Horizontal");
@@ -43,12 +47,12 @@ public class PlayerController : MonoBehaviour
             Debug.Log("ground collsion ");
          
            isGrounded = true;
-           
+          
             animator.SetBool("isGrounded", true);
         }
     }
 
-   
+  
     void PlayerTransformMoves(float _speedInput, float _verticalMovement)
     {
         if (_speedInput != 0)
@@ -60,22 +64,28 @@ public class PlayerController : MonoBehaviour
             SoundManager.Instance.Play(SoundList.PlayerMove); 
 
         }
-       
-       
-        // JUMP 
 
-        if(_verticalMovement > 0 && isGrounded )  
+        // JUMP 
+        float delta= Time.time - lastTimePlayed;
+        if(_verticalMovement > 0 && isGrounded && delta > 0.5f)  //
         {
+            readyToJump = false;
+            lastTimePlayed = Time.time;
             SoundManager.Instance.Play(SoundList.PlayerJump);
             isGrounded = false; 
-            rb2D.AddForce(new Vector2(0,_jump), ForceMode2D.Impulse);
-            Debug.Log("JUMMP FORCE " + _jump); 
+            rb2D.AddForce(transform.up*_jump, ForceMode2D.Impulse);           
             animator.SetBool("isGrounded", false);
-        } 
+        }
+       
+
     }
 
-  
-   
+    public void ReadyToJump()
+    {
+        readyToJump = true; 
+
+    }
+
 
     void PlayerAnimationMovement(float _speedInput , float _verticalMovement )
     {

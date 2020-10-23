@@ -31,7 +31,7 @@ public class LevelManager : MonoBehaviour
 
     public string Level1 = "Level1"; 
 
-    // Start is called before the first frame update
+   
     void Start()
     {
       //  UnlockReset();
@@ -43,7 +43,7 @@ public class LevelManager : MonoBehaviour
     }
 
 
-    void UnlockReset()
+    public void UnlockReset()
     {
         for (int i = 1; i < Levels.Length; i++)
         {
@@ -75,6 +75,25 @@ public class LevelManager : MonoBehaviour
     {
         PlayerPrefs.SetInt(level, (int)levelStatus);  
     }
+     public  IEnumerator  UpdateLevelLockUI()
+    {
 
+        yield return new WaitForSeconds(0.5f);
+        
+        Debug.Log("Inside level unloacked");
+        LevelLoader[] levels = FindObjectsOfType<LevelLoader>();
+        foreach( LevelLoader l in levels)
+        {
+            if (GetLevelStatus(l.name) == LevelStatus.Locked)
+            {
+                l.transform.GetChild(1).gameObject.SetActive(true);
+            }
+            else
+            {
+                l.transform.GetChild(1).gameObject.SetActive(false);
+            }
+        }
+
+    }   
 
 }

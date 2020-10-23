@@ -29,15 +29,19 @@ public class Player : MonoBehaviour
     public void UpdateLives()
     {
         lives--;
-        healthUIController.LivesDisplayUpdate(lives); 
+       
         if (lives == 0)
         {
-
+            
             Animator anim = GetComponent<Animator>();
             if (anim != null)
             {           
                anim.SetTrigger("OnDeath");
-            }              
+            }
+        }
+        if( lives>=0 )
+        {
+            healthUIController.LivesDisplayUpdate(lives);
         }
     }
 
